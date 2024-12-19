@@ -4,12 +4,32 @@ from rest_framework.response import Response
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAdminOrOwner
+from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
+import django_filters
+
+
+class TaskFilter(django_filters.FilterSet):
+    status = django_filters.CharFilter(field_name='status', lookup_expr='icontains')
+    due_date = django_filters.DateFilter(field_name='due_date', lookup_expr='exact')
+    
+    class Meta:
+        model = Task
+        fields = ['status', 'due_date']
+
+
+class TaskPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated, IsAdminOrOwner]
-
+    pagination_class = TaskPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TaskFilter
 
     def get_queryset(self):
         """Admin sees all tasks; regular users see only their tasks."""
