@@ -72,7 +72,7 @@ Access the application at `http://127.0.0.1:8000/`.
 
 Run the test suite to ensure the application works as expected:
 ```bash
-python manage.py test
+python manage.py test tasks
 ```
 
 ---
@@ -80,20 +80,24 @@ python manage.py test
 ## Project Structure
 ```
 TaskManager/
-├── tasks/              # Core app for managing tasks
-│   ├── migrations/     # Database migrations
-│   ├── models.py       # Task and CustomUser models
-│   ├── serializers.py  # DRF serializers
-│   ├── views.py        # API views
-│   ├── tests.py        # Unit tests
+├── tasks/                # Core app for managing tasks
+│   ├── admin.py          # Admin panel configurations
+│   ├── apps.py           # App configurations
+│   ├── migrations/       # Database migrations
+│   ├── models.py         # Task and CustomUser models
+│   ├── permissions.py    # Custom permissions
+│   ├── serializers.py    # DRF serializers
+│   ├── tests.py          # Unit tests
+│   ├── urls.py           # Task app URLs
+│   └── views.py          # API views
 │
-├── TaskManager/        # Project settings and configurations
-│   ├── settings.py     # Django settings
-│   ├── urls.py         # Project URL configuration
+├── TaskManager/          # Project settings and configurations
+│   ├── settings.py       # Django settings
+│   ├── urls.py           # Project URL configuration
 │
-├── manage.py           # Django management script
-├── requirements.txt    # Python dependencies
-└── .env                # Environment variables
+├── manage.py             # Django management script
+├── requirements.txt      # Python dependencies
+└── .gitignore            # Git ignore file
 ```
 
 ---
@@ -125,6 +129,20 @@ Example:
 GET /api/tasks/?status=pending&due_date=2024-12-31
 ```
 
+### Pagination
+By default, API responses are paginated with a page size of 5. You can use the page query parameter to navigate through pages, like so:
+
+Example:
+```bash
+GET /api/tasks/?page=2
+```
+
+You can adjust the page_size parameter if you wish to change the number of items per page.
+
+Example:
+```bash
+GET /api/tasks/?page=1&page_size=20
+```
 ---
 
 ## Additional Notes
@@ -138,7 +156,3 @@ GET /api/tasks/?status=pending&due_date=2024-12-31
 Feel free to open issues or submit pull requests for any enhancements or bug fixes.
 
 ---
-
-## License
-This project is licensed under the MIT License.
-
