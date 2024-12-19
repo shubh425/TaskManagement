@@ -29,6 +29,9 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['due_date']
+
     def soft_delete(self):
         self.is_active = False
         self.save()

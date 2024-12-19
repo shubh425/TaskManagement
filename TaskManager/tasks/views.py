@@ -1,5 +1,6 @@
 from .models import Task, CustomUser
 from .serializers import TaskSerializer
+from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
@@ -49,8 +50,13 @@ class TaskViewSet(viewsets.ModelViewSet):
             else:
                 serializer.save(user=user)
         else:
-            # Regular user can only assign tasks to themselves
+            # Regular users cannot specify another user in the payload
+            if "user" in self.request.data and self.request.data["user"] != str(user.id):
+                raise serializers.ValidationError(
+                    {"detail": "You are not authorized to create tasks for another user."}
+                )
             serializer.save(user=user)
+
 
     def create(self, request, *args, **kwargs):
         """Custom response for task creation."""
@@ -128,7 +134,8 @@ class TaskViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         """Admin can view any task; regular users can view only their tasks."""
         try:
-            task = self.get_queryset().get(pk=kwargs["pk"])
+            # Fetch the task without applying user-specific filters
+            task = Task.objects.get(pk=kwargs["pk"], is_active=True)
         except Task.DoesNotExist:
             return Response(
                 {"detail": "Task not found or it is no longer active."},
@@ -139,7 +146,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         if request.user.role != 'admin' and task.user != request.user:
             return Response(
                 {"detail": "You are not authorized to view this task."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         serializer = self.get_serializer(task)
