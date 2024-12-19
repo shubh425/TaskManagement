@@ -109,6 +109,7 @@ TaskManager/
 |--------|---------------------|------------------------------|
 | POST   | `/api/token/`       | Obtain JWT token             |
 | POST   | `/api/token/refresh/` | Refresh JWT token           |
+| POST   | `/api/create_user/` | Create User (admin)           |
 
 ### Tasks
 | Method | Endpoint               | Description                       |
