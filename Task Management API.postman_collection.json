@@ -17,7 +17,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"shub1234\"\n}",
+							"raw": "{\n    \"username\": \"ram\",\n    \"password\": \"ram@1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -98,12 +98,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/api/register_user/",
+							"raw": "{{base_url}}/api/users/register_user/",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
+								"users",
 								"register_user",
 								""
 							]
@@ -127,17 +128,17 @@
 							"formdata": [
 								{
 									"key": "username",
-									"value": "ram",
+									"value": "ravi",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "ram@1234",
+									"value": "ravi@1234",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "ram@gmail.com",
+									"value": "ravi@gmail.com",
 									"type": "text"
 								},
 								{
@@ -148,12 +149,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/api/create_user/",
+							"raw": "{{base_url}}/api/users/create_user/",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
+								"users",
 								"create_user",
 								""
 							]
@@ -179,7 +181,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"task_name\": \"Prepare report 10\",\n    \"description\": \"Complete the annual financial report10.\",\n    \"due_date\": \"2024-12-21\",\n    \"status\": \"pending\",\n    \"user\": 2\n}",
+							"raw": "{\n    \"task_name\": \"Prepare report10\",\n    \"description\": \"Complete the annual financial report10.\",\n    \"due_date\": \"2024-12-31\",\n    \"status\": \"in_progress\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -231,7 +233,7 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1",
+									"value": "2",
 									"disabled": true
 								},
 								{
@@ -242,6 +244,11 @@
 								{
 									"key": "due_date",
 									"value": "2024-12-31",
+									"disabled": true
+								},
+								{
+									"key": "page_size",
+									"value": "3",
 									"disabled": true
 								}
 							]
@@ -288,7 +295,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"task_name\": \"Shopping\",\n    \"description\": \"shop for brother's marriages\",\n    \"due_date\": \"2024-12-31\",\n    \"status\": \"pending\",\n    \"user\": 1\n}\n",
+							"raw": "{\n    \"task_name\": \"Shopping\",\n    \"description\": \"shop for brother's marriages\",\n    \"due_date\": \"2024-12-31\",\n    \"status\": \"pending\",\n    \"user\": 2\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
