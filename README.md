@@ -1,28 +1,35 @@
-# Task Management Application
 
-## Overview
-This is a Django-based Task Management Application that allows users to create, update, and manage tasks. The application supports user roles, including **admin** and **regular users**, with role-based access control to tasks and their features. Admin users can manage tasks for all users, while regular users can only manage their own tasks.
+# **Task Management Application**
 
----
-
-## Features
-- Role-based access control (Admin vs Regular Users).
-- Task creation, update, retrieval, deletion (soft delete).
-- Filters for task status and due dates.
-- Pagination for large datasets.
-- JWT-based authentication.
+## **Overview**
+This is a Django-based Task Management Application that allows users to create, update, and manage tasks. The application supports user roles, including **admin** and **regular users**, with role-based access control to tasks and features. Admin users can manage tasks for all users, while regular users can only manage their own tasks.
 
 ---
 
-## Prerequisites
+## **Features**
+- **Role-Based Access Control**:
+  - Admins can manage tasks for any user.
+  - Regular users can only manage their own tasks.
+- **JWT-Based Authentication**:
+  - Secure user authentication and token management.
+- **Soft Deletion**:
+  - Tasks are marked as inactive instead of being deleted.
+- **Task Filters**:
+  - Filter tasks by status or due date.
+- **Pagination**:
+  - Paginated responses for large datasets.
+
+---
+
+## **Prerequisites**
 - Python 3.8+
 - Django 4.x
-- PostgreSQL or SQLite for database
+- PostgreSQL or SQLite for the database
 - pip (Python package installer)
 
 ---
 
-## Setup Instructions
+## **Setup Instructions**
 
 ### Step 1: Clone the Repository
 ```bash
@@ -41,25 +48,18 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Step 4: Configure Environment Variables
-Create a `.env` file in the root directory and include the following variables:
-```env
-SECRET_KEY=your_secret_key
-DEBUG=True
-DATABASE_URL=sqlite:///db.sqlite3  # Use PostgreSQL if preferred
-```
-
-### Step 5: Apply Migrations
+### Step 4: Apply Migrations
 ```bash
-python manage.py makemigrations\python manage.py migrate
+python manage.py makemigrations
+python manage.py migrate
 ```
 
-### Step 6: Create a Superuser
+### Step 5: Create a Superuser
 ```bash
 python manage.py createsuperuser
 ```
 
-### Step 7: Run the Development Server
+### Step 6: Run the Development Server
 ```bash
 python manage.py runserver
 ```
@@ -68,32 +68,34 @@ Access the application at `http://127.0.0.1:8000/`.
 
 ---
 
-## Running Tests
+## **Project Structure**
 
-Run the test suite to ensure the application works as expected:
-```bash
-python manage.py test tasks
-```
-
----
-
-## Project Structure
 ```
 TaskManager/
-├── tasks/                # Core app for managing tasks
-│   ├── admin.py          # Admin panel configurations
-│   ├── apps.py           # App configurations
+├── tasks/                # Task management app
+│   ├── admin.py          # Admin configurations for tasks
+│   ├── apps.py           # Task app configurations
 │   ├── migrations/       # Database migrations
-│   ├── models.py         # Task and CustomUser models
-│   ├── permissions.py    # Custom permissions
-│   ├── serializers.py    # DRF serializers
-│   ├── tests.py          # Unit tests
-│   ├── urls.py           # Task app URLs
-│   └── views.py          # API views
+│   ├── models.py         # Task model
+|   ├── permissions.py    # Custom permissions
+│   ├── serializers.py    # Task serializers
+│   ├── tests.py          # Task tests
+│   ├── urls.py           # Task URLs
+│   └── views.py          # Task API views
 │
-├── TaskManager/          # Project settings and configurations
+├── users/                # User management app
+│   ├── admin.py          # Admin configurations for users
+│   ├── apps.py           # User app configurations
+│   ├── migrations/       # Database migrations
+│   ├── models.py         # CustomUser model
+│   ├── serializers.py    # User serializers
+│   ├── tests.py          # User tests
+│   ├── urls.py           # User URLs
+│   └── views.py          # User API views
+│
+├── TaskManager/          # Project-level configurations
 │   ├── settings.py       # Django settings
-│   ├── urls.py           # Project URL configuration
+│   ├── urls.py           # Project URL configurations
 │
 ├── manage.py             # Django management script
 ├── requirements.txt      # Python dependencies
@@ -102,59 +104,73 @@ TaskManager/
 
 ---
 
-## API Endpoints
+## **API Endpoints**
 
-### Authentication
-| Method | Endpoint            | Description                  |
-|--------|---------------------|------------------------------|
-| POST   | `/api/token/`       | Obtain JWT token             |
-| POST   | `/api/token/refresh/` | Refresh JWT token           |
-| POST   | `/api/create_user/` | Create User (admin)           |
-| POST   | `/api/register_user/` | Register User           |
+### **Authentication**
+| Method | Endpoint               | Description                     |
+|--------|-------------------------|---------------------------------|
+| POST   | `/api/token/`           | Obtain JWT token               |
+| POST   | `/api/token/refresh/`   | Refresh JWT token              |
+| POST   | `/api/users/register_user/`   | Register a new user            |
+| POST   | `/api/users/create_user/`     | Create a user (admin only)     |
 
-### Tasks
-| Method | Endpoint               | Description                       |
-|--------|-------------------------|-----------------------------------|
-| GET    | `/api/tasks/`          | List all tasks (admin) / own tasks |
-| POST   | `/api/tasks/`          | Create a task                    |
-| GET    | `/api/tasks/{id}/`     | Retrieve a specific task         |
-| PUT    | `/api/tasks/{id}/`     | Update a task                    |
-| DELETE | `/api/tasks/{id}/`     | Soft delete a task               |
+---
 
-### Filters
-Use query parameters to filter tasks:
-- `status`: Filter by task status (e.g., pending, completed).
-- `due_date`: Filter by due date.
+### **Tasks**
+| Method | Endpoint                | Description                        |
+|--------|--------------------------|------------------------------------|
+| GET    | `/api/tasks/`            | List all tasks (admin) / own tasks |
+| POST   | `/api/tasks/`            | Create a new task                  |
+| GET    | `/api/tasks/{id}/`       | Retrieve a specific task           |
+| PUT    | `/api/tasks/{id}/`       | Update a specific task             |
+| DELETE | `/api/tasks/{id}/`       | Soft delete a specific task        |
+
+---
+
+### **Filters**
+| Parameter  | Description                       |
+|------------|-----------------------------------|
+| `status`   | Filter tasks by status           |
+| `due_date` | Filter tasks by due date         |
 
 Example:
 ```bash
 GET /api/tasks/?status=pending&due_date=2024-12-31
 ```
 
-### Pagination
-By default, API responses are paginated with a page size of 5. You can use the page query parameter to navigate through pages, like so:
+---
 
-Example:
-```bash
-GET /api/tasks/?page=2
-```
-
-You can adjust the page_size parameter if you wish to change the number of items per page.
+### **Pagination**
+| Parameter    | Description                        |
+|--------------|------------------------------------|
+| `page`       | Specify the page number           |
+| `page_size`  | Specify the number of items per page |
 
 Example:
 ```bash
 GET /api/tasks/?page=1&page_size=20
 ```
----
-
-## Additional Notes
-- **Soft Deletion:** Tasks are marked as inactive instead of being removed from the database.
-- **Role-Based Access Control:** Admins can manage all tasks; regular users are restricted to their own tasks.
-- **Pagination:** Responses are paginated with a default page size of 10.
 
 ---
 
-## Contributing
+## **Running Tests**
+
+Run the test suite to ensure the application works as expected:
+```bash
+python manage.py test tasks
+python manage.py test users
+```
+
+---
+
+## **Key Features**
+- **Soft Deletion:** Tasks are marked as inactive instead of being permanently removed.
+- **Role-Based Access Control:** Admins can manage all tasks; regular users can only manage their own tasks.
+- **Filters and Pagination:** Easily navigate and filter through large datasets.
+
+---
+
+## **Contributing**
 Feel free to open issues or submit pull requests for any enhancements or bug fixes.
 
----
+--- 
