@@ -1,4 +1,3 @@
-
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.contrib.auth import get_user_model
@@ -137,4 +136,3 @@ class TaskViewSetTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue('results' in response.data)
         self.assertTrue(len(response.data['results']) <= 5)  # Assuming page size is 5
-

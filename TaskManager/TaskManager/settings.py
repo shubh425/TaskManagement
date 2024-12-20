@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'tasks',
     'rest_framework',
     'rest_framework_simplejwt',
+    'users',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -125,11 +127,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'tasks.CustomUser'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
     ],
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
